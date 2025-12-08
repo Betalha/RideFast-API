@@ -1,0 +1,8 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Edit Drive profile {@drive_profile.id}
+    <:subtitle>Use this form to manage drive_profile records in your database.</:subtitle>
+  </.header>
+
+  <.drive_profile_form changeset={@changeset} action={~p"/drive_profiles/#{@drive_profile}"} return_to={~p"/drive_profiles"} />
+</Layouts.app>

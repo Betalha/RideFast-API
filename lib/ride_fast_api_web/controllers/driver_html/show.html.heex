@@ -1,0 +1,22 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Driver {@driver.id}
+    <:subtitle>This is a driver record from your database.</:subtitle>
+    <:actions>
+      <.button navigate={~p"/drivers"}>
+        <.icon name="hero-arrow-left" />
+      </.button>
+      <.button variant="primary" navigate={~p"/drivers/#{@driver}/edit?return_to=show"}>
+        <.icon name="hero-pencil-square" /> Edit driver
+      </.button>
+    </:actions>
+  </.header>
+
+  <.list>
+    <:item title="Name">{@driver.name}</:item>
+    <:item title="Email">{@driver.email}</:item>
+    <:item title="Phone">{@driver.phone}</:item>
+    <:item title="Password hash">{@driver.password_hash}</:item>
+    <:item title="Status">{@driver.status}</:item>
+  </.list>
+</Layouts.app>

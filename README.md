@@ -1,4 +1,4 @@
-# PhxBackend
+# RideFastApi
 
 To start your Phoenix server:
 

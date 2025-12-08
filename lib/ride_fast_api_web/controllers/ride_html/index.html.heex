@@ -1,0 +1,35 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Listing Rides
+    <:actions>
+      <.button href={~p"/rides/new"}>
+        <.icon name="hero-plus" /> New Ride
+      </.button>
+    </:actions>
+  </.header>
+
+  <.table id="rides" rows={@rides} row_click={&JS.navigate(~p"/rides/#{&1}")}>
+    <:col :let={ride} label="User">{ride.user_id}</:col>
+    <:col :let={ride} label="Driver">{ride.driver_id}</:col>
+    <:col :let={ride} label="Vehicle">{ride.vehicle_id}</:col>
+    <:col :let={ride} label="Origen lat">{ride.origen_lat}</:col>
+    <:col :let={ride} label="Origen lng">{ride.origen_lng}</:col>
+    <:col :let={ride} label="Price estimate">{ride.price_estimate}</:col>
+    <:col :let={ride} label="Final price">{ride.final_price}</:col>
+    <:col :let={ride} label="Status">{ride.status}</:col>
+    <:col :let={ride} label="Request at">{ride.request_at}</:col>
+    <:col :let={ride} label="Started at">{ride.started_at}</:col>
+    <:col :let={ride} label="Endend at">{ride.endend_at}</:col>
+    <:action :let={ride}>
+      <div class="sr-only">
+        <.link navigate={~p"/rides/#{ride}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/rides/#{ride}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={ride}>
+      <.link href={~p"/rides/#{ride}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</Layouts.app>

@@ -1,0 +1,12 @@
+<.form :let={f} for={@changeset} action={@action}>
+  <.input field={f[:driver_id]} type="number" label="Driver" />
+  <.input field={f[:plate]} type="text" label="Plate" />
+  <.input field={f[:model]} type="text" label="Model" />
+  <.input field={f[:color]} type="text" label="Color" />
+  <.input field={f[:seats]} type="number" label="Seats" />
+  <.input field={f[:active]} type="checkbox" label="Active" />
+  <footer>
+    <.button variant="primary">Save Vehicle</.button>
+    <.button :if={@return_to} href={@return_to}>Cancel</.button>
+  </footer>
+</.form>

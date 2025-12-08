@@ -1,0 +1,8 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    New Driver
+    <:subtitle>Use this form to manage driver records in your database.</:subtitle>
+  </.header>
+
+  <.driver_form changeset={@changeset} action={~p"/drivers"} return_to={~p"/drivers"} />
+</Layouts.app>

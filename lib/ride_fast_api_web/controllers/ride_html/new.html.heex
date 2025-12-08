@@ -1,0 +1,8 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    New Ride
+    <:subtitle>Use this form to manage ride records in your database.</:subtitle>
+  </.header>
+
+  <.ride_form changeset={@changeset} action={~p"/rides"} return_to={~p"/rides"} />
+</Layouts.app>

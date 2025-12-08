@@ -1,0 +1,11 @@
+<.form :let={f} for={@changeset} action={@action}>
+  <.input field={f[:ride_id]} type="number" label="Ride" />
+  <.input field={f[:from_user_id]} type="number" label="From user" />
+  <.input field={f[:to_driver_id]} type="number" label="To driver" />
+  <.input field={f[:score]} type="number" label="Score" />
+  <.input field={f[:comment]} type="text" label="Comment" />
+  <footer>
+    <.button variant="primary">Save Rating</.button>
+    <.button :if={@return_to} href={@return_to}>Cancel</.button>
+  </footer>
+</.form>

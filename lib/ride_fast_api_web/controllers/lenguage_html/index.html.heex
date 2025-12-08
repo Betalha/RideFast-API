@@ -1,0 +1,26 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Listing Lenguages
+    <:actions>
+      <.button href={~p"/lenguages/new"}>
+        <.icon name="hero-plus" /> New Lenguage
+      </.button>
+    </:actions>
+  </.header>
+
+  <.table id="lenguages" rows={@lenguages} row_click={&JS.navigate(~p"/lenguages/#{&1}")}>
+    <:col :let={lenguage} label="Code">{lenguage.code}</:col>
+    <:col :let={lenguage} label="Name">{lenguage.name}</:col>
+    <:action :let={lenguage}>
+      <div class="sr-only">
+        <.link navigate={~p"/lenguages/#{lenguage}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/lenguages/#{lenguage}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={lenguage}>
+      <.link href={~p"/lenguages/#{lenguage}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</Layouts.app>

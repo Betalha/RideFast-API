@@ -1,0 +1,19 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Lenguage {@lenguage.id}
+    <:subtitle>This is a lenguage record from your database.</:subtitle>
+    <:actions>
+      <.button navigate={~p"/lenguages"}>
+        <.icon name="hero-arrow-left" />
+      </.button>
+      <.button variant="primary" navigate={~p"/lenguages/#{@lenguage}/edit?return_to=show"}>
+        <.icon name="hero-pencil-square" /> Edit lenguage
+      </.button>
+    </:actions>
+  </.header>
+
+  <.list>
+    <:item title="Code">{@lenguage.code}</:item>
+    <:item title="Name">{@lenguage.name}</:item>
+  </.list>
+</Layouts.app>

@@ -1,0 +1,27 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Listing Drive profiles
+    <:actions>
+      <.button href={~p"/drive_profiles/new"}>
+        <.icon name="hero-plus" /> New Drive profile
+      </.button>
+    </:actions>
+  </.header>
+
+  <.table id="drive_profiles" rows={@drive_profiles} row_click={&JS.navigate(~p"/drive_profiles/#{&1}")}>
+    <:col :let={drive_profile} label="License number">{drive_profile.license_number}</:col>
+    <:col :let={drive_profile} label="License expiry">{drive_profile.license_expiry}</:col>
+    <:col :let={drive_profile} label="Background check ok">{drive_profile.background_check_ok}</:col>
+    <:action :let={drive_profile}>
+      <div class="sr-only">
+        <.link navigate={~p"/drive_profiles/#{drive_profile}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/drive_profiles/#{drive_profile}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={drive_profile}>
+      <.link href={~p"/drive_profiles/#{drive_profile}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</Layouts.app>

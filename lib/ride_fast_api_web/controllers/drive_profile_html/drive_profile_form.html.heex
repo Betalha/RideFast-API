@@ -1,0 +1,9 @@
+<.form :let={f} for={@changeset} action={@action}>
+  <.input field={f[:license_number]} type="text" label="License number" />
+  <.input field={f[:license_expiry]} type="date" label="License expiry" />
+  <.input field={f[:background_check_ok]} type="checkbox" label="Background check ok" />
+  <footer>
+    <.button variant="primary">Save Drive profile</.button>
+    <.button :if={@return_to} href={@return_to}>Cancel</.button>
+  </footer>
+</.form>

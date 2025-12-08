@@ -1,0 +1,23 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Vehicle {@vehicle.id}
+    <:subtitle>This is a vehicle record from your database.</:subtitle>
+    <:actions>
+      <.button navigate={~p"/vehicles"}>
+        <.icon name="hero-arrow-left" />
+      </.button>
+      <.button variant="primary" navigate={~p"/vehicles/#{@vehicle}/edit?return_to=show"}>
+        <.icon name="hero-pencil-square" /> Edit vehicle
+      </.button>
+    </:actions>
+  </.header>
+
+  <.list>
+    <:item title="Driver">{@vehicle.driver_id}</:item>
+    <:item title="Plate">{@vehicle.plate}</:item>
+    <:item title="Model">{@vehicle.model}</:item>
+    <:item title="Color">{@vehicle.color}</:item>
+    <:item title="Seats">{@vehicle.seats}</:item>
+    <:item title="Active">{@vehicle.active}</:item>
+  </.list>
+</Layouts.app>

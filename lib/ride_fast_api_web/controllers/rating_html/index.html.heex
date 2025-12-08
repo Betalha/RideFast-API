@@ -1,0 +1,29 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Listing Ratings
+    <:actions>
+      <.button href={~p"/ratings/new"}>
+        <.icon name="hero-plus" /> New Rating
+      </.button>
+    </:actions>
+  </.header>
+
+  <.table id="ratings" rows={@ratings} row_click={&JS.navigate(~p"/ratings/#{&1}")}>
+    <:col :let={rating} label="Ride">{rating.ride_id}</:col>
+    <:col :let={rating} label="From user">{rating.from_user_id}</:col>
+    <:col :let={rating} label="To driver">{rating.to_driver_id}</:col>
+    <:col :let={rating} label="Score">{rating.score}</:col>
+    <:col :let={rating} label="Comment">{rating.comment}</:col>
+    <:action :let={rating}>
+      <div class="sr-only">
+        <.link navigate={~p"/ratings/#{rating}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/ratings/#{rating}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={rating}>
+      <.link href={~p"/ratings/#{rating}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</Layouts.app>

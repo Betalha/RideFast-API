@@ -1,0 +1,8 @@
+<.form :let={f} for={@changeset} action={@action}>
+  <.input field={f[:code]} type="text" label="Code" />
+  <.input field={f[:name]} type="text" label="Name" />
+  <footer>
+    <.button variant="primary">Save Lenguage</.button>
+    <.button :if={@return_to} href={@return_to}>Cancel</.button>
+  </footer>
+</.form>

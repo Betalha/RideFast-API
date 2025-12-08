@@ -1,0 +1,8 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    New Lenguage
+    <:subtitle>Use this form to manage lenguage records in your database.</:subtitle>
+  </.header>
+
+  <.lenguage_form changeset={@changeset} action={~p"/lenguages"} return_to={~p"/lenguages"} />
+</Layouts.app>

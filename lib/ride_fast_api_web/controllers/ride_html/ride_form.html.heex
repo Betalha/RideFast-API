@@ -1,0 +1,17 @@
+<.form :let={f} for={@changeset} action={@action}>
+  <.input field={f[:user_id]} type="number" label="User" />
+  <.input field={f[:driver_id]} type="number" label="Driver" />
+  <.input field={f[:vehicle_id]} type="number" label="Vehicle" />
+  <.input field={f[:origen_lat]} type="number" label="Origen lat" step="any" />
+  <.input field={f[:origen_lng]} type="number" label="Origen lng" step="any" />
+  <.input field={f[:price_estimate]} type="number" label="Price estimate" step="any" />
+  <.input field={f[:final_price]} type="number" label="Final price" step="any" />
+  <.input field={f[:status]} type="text" label="Status" />
+  <.input field={f[:request_at]} type="datetime-local" label="Request at" />
+  <.input field={f[:started_at]} type="datetime-local" label="Started at" />
+  <.input field={f[:endend_at]} type="datetime-local" label="Endend at" />
+  <footer>
+    <.button variant="primary">Save Ride</.button>
+    <.button :if={@return_to} href={@return_to}>Cancel</.button>
+  </footer>
+</.form>

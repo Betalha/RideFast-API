@@ -1,0 +1,28 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Ride {@ride.id}
+    <:subtitle>This is a ride record from your database.</:subtitle>
+    <:actions>
+      <.button navigate={~p"/rides"}>
+        <.icon name="hero-arrow-left" />
+      </.button>
+      <.button variant="primary" navigate={~p"/rides/#{@ride}/edit?return_to=show"}>
+        <.icon name="hero-pencil-square" /> Edit ride
+      </.button>
+    </:actions>
+  </.header>
+
+  <.list>
+    <:item title="User">{@ride.user_id}</:item>
+    <:item title="Driver">{@ride.driver_id}</:item>
+    <:item title="Vehicle">{@ride.vehicle_id}</:item>
+    <:item title="Origen lat">{@ride.origen_lat}</:item>
+    <:item title="Origen lng">{@ride.origen_lng}</:item>
+    <:item title="Price estimate">{@ride.price_estimate}</:item>
+    <:item title="Final price">{@ride.final_price}</:item>
+    <:item title="Status">{@ride.status}</:item>
+    <:item title="Request at">{@ride.request_at}</:item>
+    <:item title="Started at">{@ride.started_at}</:item>
+    <:item title="Endend at">{@ride.endend_at}</:item>
+  </.list>
+</Layouts.app>

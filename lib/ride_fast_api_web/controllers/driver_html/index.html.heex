@@ -1,0 +1,30 @@
+<Layouts.app flash={@flash}>
+  <.header>
+    Listing Drivers
+    <:actions>
+      <.button href={~p"/drivers/new"}>
+        <.icon name="hero-plus" /> New Driver
+      </.button>
+    </:actions>
+  </.header>
+
+  <.table id="drivers" rows={@drivers} row_click={&JS.navigate(~p"/drivers/#{&1}")}>
+    <:col :let={driver} label="Name">{driver.name}</:col>
+    <:col :let={driver} label="Email">{driver.email}</:col>
+    <:col :let={driver} label="Phone">{driver.phone}</:col>
+    <:col :let={driver} label="Password hash">{driver.password_hash}</:col>
+    <:col :let={driver} label="Status">{driver.status}</:col>
+    <:col :let={driver} label="Created at">{driver.inserted_at}</:col>
+    <:action :let={driver}>
+      <div class="sr-only">
+        <.link navigate={~p"/drivers/#{driver}"}>Show</.link>
+      </div>
+      <.link navigate={~p"/drivers/#{driver}/edit"}>Edit</.link>
+    </:action>
+    <:action :let={driver}>
+      <.link href={~p"/drivers/#{driver}"} method="delete" data-confirm="Are you sure?">
+        Delete
+      </.link>
+    </:action>
+  </.table>
+</Layouts.app>
