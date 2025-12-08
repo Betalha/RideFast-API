@@ -108,4 +108,36 @@ defmodule RideFastApi.Drivers do
   def change_driver(%Driver{} = driver, attrs \\ %{}) do
     Driver.changeset(driver, attrs)
   end
+
+  def list_drivers_filtered(%{"status" => status} = params) do
+    query = from d in Driver, where: d.status == ^status
+
+    query =
+      if lang = params["language"] do
+        from d in query,
+          join: dl in "drivers_lenguages", on: dl.driver_id == d.id,
+          join: l in "lenguages", on: l.id == dl.lenguage_id,
+          where: l.code == ^lang
+      else
+        query
+      end
+
+    Repo.all(query)
+  end
+
+  def list_drivers_filtered(_params) do
+    Repo.all(Driver)
+  end
+
+  def get_languages_by_driver(driver_id) do
+    query =
+      from l in RideFastApi.Languages.Lenguage,
+        join: dl in RideFastApi.DriversLanguages.DriversLanguage,
+        on: dl.lenguage_id == l.id,
+        where: dl.driver_id == ^driver_id,
+        select: l
+
+    Repo.all(query)
+  end
+
 end

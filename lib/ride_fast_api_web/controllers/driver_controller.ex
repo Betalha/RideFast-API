@@ -4,9 +4,37 @@ defmodule RideFastApiWeb.DriverController do
   alias RideFastApi.Drivers
   alias RideFastApi.Drivers.Driver
 
-  def index(conn, _params) do
-    drivers = Drivers.list_drivers()
-    render(conn, :index, drivers: drivers)
+  def index(conn, params) do
+    drivers = Drivers.list_drivers_filtered(params)
+    json_data = %{
+      drivers: Enum.map(drivers, fn %RideFastApi.Drivers.Driver{id: id, name: name, email: email, phone: phone, status: status} ->
+        %{
+          id: id,
+          name: name,
+          email: email,
+          phone: phone,
+          status: status
+        }
+      end)
+    }
+
+  json(conn, json_data)
+  end
+
+  def drives_languages_index(conn, %{"driver_id" => driver_id}) do
+    languages = RideFastApi.Drivers.get_languages_by_driver(driver_id)
+
+    json_data = %{
+      languages: Enum.map(languages, fn %RideFastApi.Languages.Lenguage{id: id, code: code, name: name} ->
+        %{
+          id: id,
+          code: code,
+          name: name
+        }
+      end)
+    }
+
+    json(conn, json_data)
   end
 
   def new(conn, _params) do

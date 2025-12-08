@@ -28,6 +28,9 @@ defmodule RideFastApiWeb.Router do
 
     post "/auth/register", AuthController, :register
     post "/auth/login", AuthController, :login
+    get "/languages", LenguageController, :index
+    get "/drivers", DriverController, :index
+    get "/drivers/:driver_id/languages", DriverController, :drives_languages_index
   end
 
   # Other scopes may use custom stacks.

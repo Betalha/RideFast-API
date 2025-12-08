@@ -71,8 +71,6 @@ defmodule RideFastApiWeb.AuthController do
     |> json(%{error: "Missing email or password"})
   end
 
-  # --- Funções privadas ---
-
   defp register_user(conn, attrs) do
     # Verifica conflito em ambos os contextos
     if email_exists_anywhere(attrs.email) do

@@ -5,8 +5,18 @@ defmodule RideFastApiWeb.LenguageController do
   alias RideFastApi.Languages.Lenguage
 
   def index(conn, _params) do
-    lenguages = Languages.list_lenguages()
-    render(conn, :index, lenguages: lenguages)
+    languages = Languages.list_lenguages()
+    json_data = %{
+      languages: Enum.map(languages, fn %Lenguage{id: id, code: code, name: name} ->
+        %{
+          id: id,
+          code: code,
+          name: name
+        }
+      end)
+    }
+
+    json(conn, json_data)
   end
 
   def new(conn, _params) do
@@ -26,9 +36,9 @@ defmodule RideFastApiWeb.LenguageController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    lenguage = Languages.get_lenguage!(id)
-    render(conn, :show, lenguage: lenguage)
+  def show(conn, _params) do
+    languages = Languages.list_lenguages()
+    render(conn, :index, languages: languages)
   end
 
   def edit(conn, %{"id" => id}) do
