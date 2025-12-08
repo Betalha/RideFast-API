@@ -4,7 +4,6 @@ defmodule RideFastApi.Auth.Guardian do
   alias RideFastApi.Users
   alias RideFastApi.Drivers
 
-  # Gera o token com prefixo para diferenciar tipo
   def subject_for_token({:user, user}, _claims) do
     {:ok, "user:#{user.id}"}
   end
@@ -17,17 +16,16 @@ defmodule RideFastApi.Auth.Guardian do
     {:error, :invalid_role}
   end
 
-  # Carrega o recurso (user ou driver) a partir do token
   def resource_from_claims(claims) do
     case claims["sub"] do
       "user:" <> id ->
-        case Users.get_user!(id) do
+        case Users.get_user(id) do
           nil -> {:error, :user_not_found}
           user -> {:ok, {:user, user}}
         end
 
       "driver:" <> id ->
-        case Drivers.get_driver!(id) do
+        case Drivers.get_driver(id) do
           nil -> {:error, :driver_not_found}
           driver -> {:ok, {:driver, driver}}
         end

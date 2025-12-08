@@ -37,6 +37,10 @@ defmodule RideFastApi.Users do
   """
   def get_user!(id), do: Repo.get!(User, id)
 
+  def get_user(id) do
+    Repo.get(User, id)
+  end
+
   @doc """
   Gets a user by email.
   """

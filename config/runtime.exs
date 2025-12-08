@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :ride_fast_api, RideFastApiWeb.Endpoint, server: true
 end
 
+config :ride_fast_api, RideFastApi.Auth.Guardian,
+  issuer: "ride_fast_api",
+  secret_key: "p1PcMUXSx8MH8m4rCCh8ToFgQ82Lv4+WuDYIJeYlI9q6DqAQcSYKlIehIAW58U0LJiv8k8qBbvGTulWEstqlsw=="
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||

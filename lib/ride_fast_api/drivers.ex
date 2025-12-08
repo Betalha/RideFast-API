@@ -37,6 +37,10 @@ defmodule RideFastApi.Drivers do
   """
   def get_driver!(id), do: Repo.get!(Driver, id)
 
+  def get_driver(id) do
+    Repo.get(Driver, id)
+  end
+
   @doc """
   Gets a driver by email.
   """
