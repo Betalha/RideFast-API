@@ -9,10 +9,11 @@ defmodule RideFastApi.Users.User do
     field :password_hash, :string
     field :password, :string, virtual: true
 
+    has_many :rides, RideFastApi.Rides.Ride
+
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :email, :phone, :password])

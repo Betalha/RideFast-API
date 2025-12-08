@@ -6,10 +6,11 @@ defmodule RideFastApi.Languages.Lenguage do
     field :code, :string
     field :name, :string
 
+    many_to_many :drivers, RideFastApi.Drivers.Driver, join_through: "drivers_lenguages"
+
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(lenguage, attrs) do
     lenguage
     |> cast(attrs, [:code, :name])

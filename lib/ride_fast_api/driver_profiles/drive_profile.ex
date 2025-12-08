@@ -7,13 +7,14 @@ defmodule RideFastApi.Driver_profiles.Drive_profile do
     field :license_expiry, :date
     field :background_check_ok, :boolean, default: false
 
+    belongs_to :driver, RideFastApi.Drivers.Driver
+
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(drive_profile, attrs) do
     drive_profile
-    |> cast(attrs, [:license_number, :license_expiry, :background_check_ok])
-    |> validate_required([:license_number, :license_expiry, :background_check_ok])
+    |> cast(attrs, [:driver_id, :license_number, :license_expiry, :background_check_ok])
+    |> validate_required([:driver_id, :license_number, :license_expiry])
   end
 end

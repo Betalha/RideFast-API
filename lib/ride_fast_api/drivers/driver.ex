@@ -10,10 +10,14 @@ defmodule RideFastApi.Drivers.Driver do
     field :password, :string, virtual: true
     field :status, :string
 
+    has_one :drive_profile, RideFastApi.Driver_profiles.Drive_profile
+    has_many :vehicles, RideFastApi.Vehicles.Vehicle
+    has_many :rides, RideFastApi.Rides.Ride
+    many_to_many :lenguages, RideFastApi.Languages.Lenguage, join_through: "drivers_lenguages"
+
     timestamps(type: :utc_datetime)
   end
 
-  @doc false
   def changeset(driver, attrs) do
     driver
     |> cast(attrs, [:name, :email, :phone, :password, :status])
