@@ -2,6 +2,7 @@ defmodule RideFastApi.Vehicles.Vehicle do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :driver_id, :plate, :model, :color, :seats, :active]}
   schema "vehicles" do
     field :plate, :string
     field :model, :string

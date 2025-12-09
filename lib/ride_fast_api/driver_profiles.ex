@@ -37,6 +37,10 @@ defmodule RideFastApi.Driver_profiles do
   """
   def get_drive_profile!(id), do: Repo.get!(Drive_profile, id)
 
+  def get_profile_by_driver(driver_id) do
+    Repo.get_by(Drive_profile, driver_id: driver_id)
+  end
+
   @doc """
   Creates a drive_profile.
 

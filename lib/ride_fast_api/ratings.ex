@@ -21,6 +21,16 @@ defmodule RideFastApi.Ratings do
     Repo.all(Rating)
   end
 
+  def list_ratings_by_ride(ride_id) do
+    from(r in Rating, where: r.ride_id == ^ride_id)
+    |> Repo.all()
+  end
+
+  def list_driver_ratings(driver_id) do
+    from(r in Rating, where: r.to_driver_id == ^driver_id)
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single rating.
 

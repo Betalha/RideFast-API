@@ -1,103 +1,87 @@
 defmodule RideFastApi.Rides do
-  @moduledoc """
-  The Rides context.
-  """
-
   import Ecto.Query, warn: false
   alias RideFastApi.Repo
-
   alias RideFastApi.Rides.Ride
 
-  @doc """
-  Returns the list of rides.
-
-  ## Examples
-
-      iex> list_rides()
-      [%Ride{}, ...]
-
-  """
-  def list_rides do
-    Repo.all(Ride)
+  def list_rides(filters \\ %{}) do
+    Ride
+    |> apply_filters(filters)
+    |> Repo.all()
   end
 
-  @doc """
-  Gets a single ride.
+  defp apply_filters(query, filters) do
+    Enum.reduce(filters, query, fn
+      {"status", status}, query -> where(query, [r], r.status == ^status)
+      {"user_id", user_id}, query -> where(query, [r], r.user_id == ^user_id)
+      {"driver_id", driver_id}, query -> where(query, [r], r.driver_id == ^driver_id)
+      _, query -> query
+    end)
+  end
 
-  Raises `Ecto.NoResultsError` if the Ride does not exist.
+  def get_ride(id) do
+    Repo.get(Ride, id)
+  end
 
-  ## Examples
-
-      iex> get_ride!(123)
-      %Ride{}
-
-      iex> get_ride!(456)
-      ** (Ecto.NoResultsError)
-
-  """
   def get_ride!(id), do: Repo.get!(Ride, id)
 
-  @doc """
-  Creates a ride.
-
-  ## Examples
-
-      iex> create_ride(%{field: value})
-      {:ok, %Ride{}}
-
-      iex> create_ride(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def create_ride(attrs) do
+    attrs = Map.put(attrs, "request_at", NaiveDateTime.utc_now())
+
     %Ride{}
     |> Ride.changeset(attrs)
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a ride.
-
-  ## Examples
-
-      iex> update_ride(ride, %{field: new_value})
-      {:ok, %Ride{}}
-
-      iex> update_ride(ride, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
   def update_ride(%Ride{} = ride, attrs) do
     ride
     |> Ride.changeset(attrs)
     |> Repo.update()
   end
 
-  @doc """
-  Deletes a ride.
-
-  ## Examples
-
-      iex> delete_ride(ride)
-      {:ok, %Ride{}}
-
-      iex> delete_ride(ride)
-      {:error, %Ecto.Changeset{}}
-
-  """
   def delete_ride(%Ride{} = ride) do
     Repo.delete(ride)
   end
 
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking ride changes.
+  def accept_ride(%Ride{} = ride, driver_id, vehicle_id) do
+    if ride.status == "SOLICITADA" do
+      ride
+      |> Ride.changeset(%{driver_id: driver_id, vehicle_id: vehicle_id, status: "ACEITA"})
+      |> Repo.update()
+    else
+      {:error, :invalid_status}
+    end
+  end
 
-  ## Examples
+  def start_ride(%Ride{} = ride) do
+    if ride.status == "ACEITA" do
+      ride
+      |> Ride.changeset(%{status: "EM_ANDAMENTO", started_at: NaiveDateTime.utc_now()})
+      |> Repo.update()
+    else
+      {:error, :invalid_status}
+    end
+  end
 
-      iex> change_ride(ride)
-      %Ecto.Changeset{data: %Ride{}}
+  def complete_ride(%Ride{} = ride, final_price) do
+    if ride.status == "EM_ANDAMENTO" do
+      ride
+      |> Ride.changeset(%{status: "FINALIZADA", final_price: final_price, endend_at: NaiveDateTime.utc_now()})
+      |> Repo.update()
+    else
+      {:error, :invalid_status}
+    end
+  end
 
-  """
+  def cancel_ride(%Ride{} = ride) do
+    if ride.status in ["SOLICITADA", "ACEITA", "EM_ANDAMENTO"] do
+      ride
+      |> Ride.changeset(%{status: "CANCELADA"})
+      |> Repo.update()
+    else
+      {:error, :invalid_status}
+    end
+  end
+
   def change_ride(%Ride{} = ride, attrs \\ %{}) do
     Ride.changeset(ride, attrs)
   end

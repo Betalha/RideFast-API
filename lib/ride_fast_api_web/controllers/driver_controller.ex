@@ -2,89 +2,79 @@ defmodule RideFastApiWeb.DriverController do
   use RideFastApiWeb, :controller
 
   alias RideFastApi.Drivers
-  alias RideFastApi.Drivers.Driver
 
   def index(conn, params) do
     drivers = Drivers.list_drivers_filtered(params)
-    json_data = %{
-      drivers: Enum.map(drivers, fn %RideFastApi.Drivers.Driver{id: id, name: name, email: email, phone: phone, status: status} ->
-        %{
-          id: id,
-          name: name,
-          email: email,
-          phone: phone,
-          status: status
-        }
-      end)
-    }
-
-  json(conn, json_data)
+    json(conn, %{data: drivers})
   end
 
   def drives_languages_index(conn, %{"driver_id" => driver_id}) do
-    languages = RideFastApi.Drivers.get_languages_by_driver(driver_id)
-
-    json_data = %{
-      languages: Enum.map(languages, fn %RideFastApi.Languages.Lenguage{id: id, code: code, name: name} ->
-        %{
-          id: id,
-          code: code,
-          name: name
-        }
-      end)
-    }
-
-    json(conn, json_data)
-  end
-
-  def new(conn, _params) do
-    changeset = Drivers.change_driver(%Driver{})
-    render(conn, :new, changeset: changeset)
-  end
-
-  def create(conn, %{"driver" => driver_params}) do
-    case Drivers.create_driver(driver_params) do
-      {:ok, driver} ->
-        conn
-        |> put_flash(:info, "Driver created successfully.")
-        |> redirect(to: ~p"/drivers/#{driver}")
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
-    end
+    languages = Drivers.get_languages_by_driver(driver_id)
+    json(conn, %{data: languages})
   end
 
   def show(conn, %{"id" => id}) do
-    driver = Drivers.get_driver!(id)
-    render(conn, :show, driver: driver)
+    case Drivers.get_driver(id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Driver not found"})
+
+      driver ->
+        json(conn, %{data: driver})
+    end
   end
 
-  def edit(conn, %{"id" => id}) do
-    driver = Drivers.get_driver!(id)
-    changeset = Drivers.change_driver(driver)
-    render(conn, :edit, driver: driver, changeset: changeset)
-  end
+  def create(conn, params) do
+    attrs = Map.put_new(params, "status", "ACTIVE")
 
-  def update(conn, %{"id" => id, "driver" => driver_params}) do
-    driver = Drivers.get_driver!(id)
-
-    case Drivers.update_driver(driver, driver_params) do
+    case Drivers.create_driver(attrs) do
       {:ok, driver} ->
         conn
-        |> put_flash(:info, "Driver updated successfully.")
-        |> redirect(to: ~p"/drivers/#{driver}")
+        |> put_status(:created)
+        |> json(%{data: driver})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, driver: driver, changeset: changeset)
+      {:error, changeset} ->
+        conn
+        |> put_status(:bad_request)
+        |> json(%{errors: changeset_errors(changeset)})
+    end
+  end
+
+  def update(conn, %{"id" => id} = params) do
+    case Drivers.get_driver(id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Driver not found"})
+
+      driver ->
+        case Drivers.update_driver(driver, params) do
+          {:ok, updated_driver} ->
+            json(conn, %{data: updated_driver})
+
+          {:error, changeset} ->
+            conn
+            |> put_status(:bad_request)
+            |> json(%{errors: changeset_errors(changeset)})
+        end
     end
   end
 
   def delete(conn, %{"id" => id}) do
-    driver = Drivers.get_driver!(id)
-    {:ok, _driver} = Drivers.delete_driver(driver)
+    case Drivers.get_driver(id) do
+      nil ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{error: "Driver not found"})
 
-    conn
-    |> put_flash(:info, "Driver deleted successfully.")
-    |> redirect(to: ~p"/drivers")
+      driver ->
+        Drivers.delete_driver(driver)
+        send_resp(conn, :no_content, "")
+    end
+  end
+
+  defp changeset_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, _opts} -> msg end)
   end
 end

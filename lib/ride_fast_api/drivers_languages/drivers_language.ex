@@ -4,10 +4,8 @@ defmodule RideFastApi.DriversLanguages.DriversLanguage do
 
   @primary_key false
   schema "drivers_lenguages" do
-    belongs_to :driver, RideFastApi.Drivers.Driver, foreign_key: :driver_id
-    belongs_to :language, RideFastApi.Languages.Lenguage, foreign_key: :lenguage_id
-
-    timestamps(type: :utc_datetime)
+    field :driver_id, :integer, primary_key: true
+    field :language_id, :integer, source: :lenguage_id, primary_key: true
   end
 
   def changeset(drivers_language, attrs) do

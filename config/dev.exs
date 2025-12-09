@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :ride_fast_api, RideFastApi.Repo,
   username: "root",
-  password: "asdf",
+  password: "131103",
   hostname: "localhost",
   database: "ride_fast_api_dev",
   stacktrace: true,
@@ -20,7 +20,7 @@ config :ride_fast_api, RideFastApi.Repo,
 config :ride_fast_api, RideFastApiWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
-  http: [ip: {127, 0, 0, 1}, port: String.to_integer(System.get_env("PORT") || "4000")],
+  http: [ip: {127, 0, 0, 1}, port: String.to_integer(System.get_env("PORT") || "4001")],
   check_origin: false,
   code_reloader: true,
   debug_errors: true,

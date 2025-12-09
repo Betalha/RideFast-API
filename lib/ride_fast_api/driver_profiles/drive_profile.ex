@@ -2,6 +2,7 @@ defmodule RideFastApi.Driver_profiles.Drive_profile do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :driver_id, :license_number, :license_expiry, :background_check_ok]}
   schema "drive_profiles" do
     field :license_number, :string
     field :license_expiry, :date

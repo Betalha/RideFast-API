@@ -80,7 +80,7 @@ defmodule RideFastApi.Drivers do
   """
   def update_driver(%Driver{} = driver, attrs) do
     driver
-    |> Driver.changeset(attrs)
+    |> Driver.update_changeset(attrs)
     |> Repo.update()
   end
 
@@ -137,7 +137,7 @@ defmodule RideFastApi.Drivers do
     query =
       from l in RideFastApi.Languages.Lenguage,
         join: dl in RideFastApi.DriversLanguages.DriversLanguage,
-        on: dl.lenguage_id == l.id,
+        on: dl.language_id == l.id,
         where: dl.driver_id == ^driver_id,
         select: l
 

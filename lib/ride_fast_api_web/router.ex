@@ -32,6 +32,7 @@ defmodule RideFastApiWeb.Router do
 
     post "/auth/register", AuthController, :register
     post "/auth/login", AuthController, :login
+    post "/users", UserController, :create
     get "/languages", LenguageController, :index
     get "/drivers", DriverController, :index
     get "/drivers/:driver_id/languages", DriverController, :drives_languages_index
@@ -60,19 +61,20 @@ defmodule RideFastApiWeb.Router do
     delete "/vehicles/:id", VehicleController, :delete
 
     post "/languages", LenguageController, :create
-    post "/drivers/:driver_id/languages/:language_id", DriverLanguageController, :create
+    post "/drivers/:driver_id/languages", DriverLanguageController, :create
     delete "/drivers/:driver_id/languages/:language_id", DriverLanguageController, :delete
 
     post "/rides", RideController, :create
     get "/rides", RideController, :index
     get "/rides/:id", RideController, :show
+    delete "/rides/:id", RideController, :delete
+    get "/rides/:id/history", RideController, :history
     post "/rides/:id/accept", RideController, :accept
     post "/rides/:id/start", RideController, :start
     post "/rides/:id/complete", RideController, :complete
     post "/rides/:id/cancel", RideController, :cancel
 
     post "/rides/:id/ratings", RatingController, :create
-    get "/rides/:id/ratings", RatingController, :index
     get "/drivers/:id/ratings", RatingController, :show
   end
 

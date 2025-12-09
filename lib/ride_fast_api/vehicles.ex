@@ -21,6 +21,15 @@ defmodule RideFastApi.Vehicles do
     Repo.all(Vehicle)
   end
 
+  def list_vehicles_by_driver(driver_id) do
+    from(v in Vehicle, where: v.driver_id == ^driver_id)
+    |> Repo.all()
+  end
+
+  def get_vehicle(id) do
+    Repo.get(Vehicle, id)
+  end
+
   @doc """
   Gets a single vehicle.
 

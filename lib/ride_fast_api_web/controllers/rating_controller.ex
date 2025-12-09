@@ -2,61 +2,49 @@ defmodule RideFastApiWeb.RatingController do
   use RideFastApiWeb, :controller
 
   alias RideFastApi.Ratings
-  alias RideFastApi.Ratings.Rating
+  alias RideFastApi.Rides
 
-  def index(conn, _params) do
-    ratings = Ratings.list_ratings()
-    render(conn, :index, ratings: ratings)
-  end
-
-  def new(conn, _params) do
-    changeset = Ratings.change_rating(%Rating{})
-    render(conn, :new, changeset: changeset)
-  end
-
-  def create(conn, %{"rating" => rating_params}) do
-    case Ratings.create_rating(rating_params) do
-      {:ok, rating} ->
+  def create(conn, %{"id" => ride_id} = params) do
+    case Rides.get_ride(ride_id) do
+      nil ->
         conn
-        |> put_flash(:info, "Rating created successfully.")
-        |> redirect(to: ~p"/ratings/#{rating}")
+        |> put_status(:not_found)
+        |> json(%{error: "Ride not found"})
 
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :new, changeset: changeset)
+      ride ->
+        if ride.status == "FINALIZADA" do
+          attrs = Map.put(params, "ride_id", ride_id)
+
+          case Ratings.create_rating(attrs) do
+            {:ok, rating} ->
+              conn
+              |> put_status(:created)
+              |> json(%{data: rating})
+
+            {:error, changeset} ->
+              conn
+              |> put_status(:bad_request)
+              |> json(%{errors: changeset_errors(changeset)})
+          end
+        else
+          conn
+          |> put_status(:forbidden)
+          |> json(%{error: "Ride must be FINALIZADA to rate"})
+        end
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    rating = Ratings.get_rating!(id)
-    render(conn, :show, rating: rating)
+  def index(conn, %{"id" => ride_id}) do
+    ratings = Ratings.list_ratings_by_ride(ride_id)
+    json(conn, %{data: ratings})
   end
 
-  def edit(conn, %{"id" => id}) do
-    rating = Ratings.get_rating!(id)
-    changeset = Ratings.change_rating(rating)
-    render(conn, :edit, rating: rating, changeset: changeset)
+  def show(conn, %{"id" => driver_id}) do
+    ratings = Ratings.list_driver_ratings(driver_id)
+    json(conn, %{data: ratings})
   end
 
-  def update(conn, %{"id" => id, "rating" => rating_params}) do
-    rating = Ratings.get_rating!(id)
-
-    case Ratings.update_rating(rating, rating_params) do
-      {:ok, rating} ->
-        conn
-        |> put_flash(:info, "Rating updated successfully.")
-        |> redirect(to: ~p"/ratings/#{rating}")
-
-      {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, rating: rating, changeset: changeset)
-    end
-  end
-
-  def delete(conn, %{"id" => id}) do
-    rating = Ratings.get_rating!(id)
-    {:ok, _rating} = Ratings.delete_rating(rating)
-
-    conn
-    |> put_flash(:info, "Rating deleted successfully.")
-    |> redirect(to: ~p"/ratings")
+  defp changeset_errors(changeset) do
+    Ecto.Changeset.traverse_errors(changeset, fn {msg, _opts} -> msg end)
   end
 end

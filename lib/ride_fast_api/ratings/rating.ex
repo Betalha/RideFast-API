@@ -2,6 +2,7 @@ defmodule RideFastApi.Ratings.Rating do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :ride_id, :from_user_id, :to_driver_id, :score, :comment]}
   schema "ratings" do
     field :score, :integer
     field :comment, :string

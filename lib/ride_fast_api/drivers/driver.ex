@@ -2,6 +2,7 @@ defmodule RideFastApi.Drivers.Driver do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :name, :email, :phone, :status]}
   schema "drivers" do
     field :name, :string
     field :email, :string
@@ -22,6 +23,15 @@ defmodule RideFastApi.Drivers.Driver do
     driver
     |> cast(attrs, [:name, :email, :phone, :password, :status])
     |> validate_required([:name, :email, :phone, :password, :status])
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "deve ser um email válido")
+    |> unsafe_validate_unique([:email], RideFastApi.Repo, message: "já está em uso")
+    |> put_password_hash()
+  end
+
+  def update_changeset(driver, attrs) do
+    driver
+    |> cast(attrs, [:name, :email, :phone, :password, :status])
+    |> validate_required([:name, :email, :phone])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "deve ser um email válido")
     |> unsafe_validate_unique([:email], RideFastApi.Repo, message: "já está em uso")
     |> put_password_hash()

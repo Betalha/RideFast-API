@@ -1,0 +1,477 @@
+================================================================================
+                    RideFast API - Payloads para Postman
+                         Base URL: http://localhost:4001/api/v1
+================================================================================
+
+IMPORTANTE: Para endpoints autenticados, adicionar header:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                              AUTENTICACAO (2)
+================================================================================
+
+1. POST /api/v1/auth/register (Registrar usuario)
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/auth/register
+Method: POST
+Headers:
+  Content-Type: application/json
+Body:
+{
+  "role": "user",
+  "name": "Roberto Andrade",
+  "email": "roberto.andrade@teste.com",
+  "phone": "11987654321",
+  "password": "senha123"
+}
+
+2. POST /api/v1/auth/register (Registrar motorista)
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/auth/register
+Method: POST
+Headers:
+  Content-Type: application/json
+Body:
+{
+  "role": "driver",
+  "name": "Fernando Costa",
+  "email": "fernando.costa@teste.com",
+  "phone": "21912345678",
+  "password": "senha123"
+}
+
+3. POST /api/v1/auth/login
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/auth/login
+Method: POST
+Headers:
+  Content-Type: application/json
+Body:
+{
+  "email": "roberto.andrade@teste.com",
+  "password": "senha123"
+}
+
+================================================================================
+                              USUARIOS (5)
+================================================================================
+
+4. GET /api/v1/users (Listar usuarios) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/users
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+5. GET /api/v1/users/:id (Buscar usuario) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/users/1
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+6. POST /api/v1/users (Criar usuario)
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/users
+Method: POST
+Headers:
+  Content-Type: application/json
+Body:
+{
+  "name": "Amanda Ferreira",
+  "email": "amanda.ferreira@teste.com",
+  "phone": "31998765432",
+  "password": "senha123"
+}
+
+7. PUT /api/v1/users/:id (Atualizar usuario) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/users/1
+Method: PUT
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "name": "Roberto Andrade Junior",
+  "phone": "11999888777"
+}
+
+8. DELETE /api/v1/users/:id (Deletar usuario) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/users/99
+Method: DELETE
+Headers:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                              MOTORISTAS (5)
+================================================================================
+
+9. GET /api/v1/drivers (Listar motoristas)
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers
+Method: GET
+
+10. GET /api/v1/drivers/:id (Buscar motorista) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+11. POST /api/v1/drivers (Criar motorista) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "name": "Ricardo Mendes",
+  "email": "ricardo.mendes@teste.com",
+  "phone": "41955544433",
+  "password": "senha123"
+}
+
+12. PUT /api/v1/drivers/:id (Atualizar motorista) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1
+Method: PUT
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "name": "Fernando Costa Silva",
+  "status": "ACTIVE"
+}
+
+13. DELETE /api/v1/drivers/:id (Deletar motorista) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/99
+Method: DELETE
+Headers:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                         PERFIL DO MOTORISTA (3)
+================================================================================
+
+14. GET /api/v1/drivers/:driver_id/profile (Buscar perfil) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/profile
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+15. POST /api/v1/drivers/:driver_id/profile (Criar perfil) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/profile
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "license_number": "CNH98765432",
+  "license_expiry": "2027-08-15",
+  "background_check_ok": true
+}
+
+16. PUT /api/v1/drivers/:driver_id/profile (Atualizar perfil) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/profile
+Method: PUT
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "license_number": "CNH11223344",
+  "license_expiry": "2028-03-20",
+  "background_check_ok": true
+}
+
+================================================================================
+                              VEICULOS (4)
+================================================================================
+
+17. GET /api/v1/drivers/:driver_id/vehicles (Listar veiculos) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/vehicles
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+18. POST /api/v1/drivers/:driver_id/vehicles (Criar veiculo) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/vehicles
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "plate": "XYZ9H87",
+  "model": "Toyota Corolla 2024",
+  "color": "Prata",
+  "seats": 5,
+  "active": true
+}
+
+19. PUT /api/v1/vehicles/:id (Atualizar veiculo) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/vehicles/1
+Method: PUT
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "color": "Vermelho",
+  "active": true
+}
+
+20. DELETE /api/v1/vehicles/:id (Deletar veiculo) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/vehicles/99
+Method: DELETE
+Headers:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                              IDIOMAS (5)
+================================================================================
+
+21. GET /api/v1/languages (Listar idiomas)
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/languages
+Method: GET
+
+22. POST /api/v1/languages (Criar idioma) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/languages
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "code": "en",
+  "name": "English"
+}
+
+23. GET /api/v1/drivers/:driver_id/languages (Idiomas do motorista)
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/languages
+Method: GET
+
+24. POST /api/v1/drivers/:driver_id/languages (Associar idioma) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/languages
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "language_id": 1
+}
+
+25. DELETE /api/v1/drivers/:driver_id/languages/:language_id (Remover idioma) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/languages/1
+Method: DELETE
+Headers:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                              CORRIDAS (10)
+================================================================================
+
+26. POST /api/v1/rides (Solicitar corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "user_id": 1,
+  "origin": {
+    "lat": -23.5505,
+    "lng": -46.6333
+  },
+  "destination": {
+    "lat": -23.5629,
+    "lng": -46.6544
+  },
+  "price_estimate": 32.75
+}
+
+Alternativo (formato simples):
+{
+  "user_id": 1,
+  "origin_lat": "-23.5505",
+  "origin_lng": "-46.6333",
+  "dest_lat": "-23.5629",
+  "dest_lng": "-46.6544",
+  "price_estimate": 32.75
+}
+
+27. GET /api/v1/rides (Listar corridas) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+Com filtros:
+URL: http://localhost:4001/api/v1/rides?status=SOLICITADA
+URL: http://localhost:4001/api/v1/rides?user_id=1
+URL: http://localhost:4001/api/v1/rides?driver_id=1
+
+28. GET /api/v1/rides/:id (Detalhes da corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+29. DELETE /api/v1/rides/:id (Deletar corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/99
+Method: DELETE
+Headers:
+  Authorization: Bearer {TOKEN}
+
+30. POST /api/v1/rides/:id/accept (Aceitar corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1/accept
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "driver_id": 1,
+  "vehicle_id": 1
+}
+
+31. POST /api/v1/rides/:id/start (Iniciar corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1/start
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+
+32. POST /api/v1/rides/:id/complete (Finalizar corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1/complete
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "final_price": 35.50
+}
+
+33. POST /api/v1/rides/:id/cancel (Cancelar corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1/cancel
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "reason": "Passageiro nao compareceu"
+}
+
+34. GET /api/v1/rides/:id/history (Historico da corrida) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1/history
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                              AVALIACOES (1)
+================================================================================
+
+35. POST /api/v1/rides/:id/ratings (Criar avaliacao) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/rides/1/ratings
+Method: POST
+Headers:
+  Authorization: Bearer {TOKEN}
+  Content-Type: application/json
+Body:
+{
+  "from_user_id": 1,
+  "to_driver_id": 1,
+  "score": 4,
+  "comment": "Viagem tranquila, motorista atencioso."
+}
+
+36. GET /api/v1/drivers/:id/ratings (Avaliacoes do motorista) [AUTH]
+--------------------------------------------------------------------------------
+URL: http://localhost:4001/api/v1/drivers/1/ratings
+Method: GET
+Headers:
+  Authorization: Bearer {TOKEN}
+
+================================================================================
+                    FLUXO COMPLETO DE TESTE (Exemplo)
+================================================================================
+
+1. Registrar usuario:
+   POST /auth/register com role=user
+
+2. Fazer login e guardar o TOKEN:
+   POST /auth/login
+
+3. Criar motorista:
+   POST /auth/register com role=driver (ou POST /drivers)
+
+4. Criar perfil do motorista:
+   POST /drivers/1/profile
+
+5. Criar veiculo para o motorista:
+   POST /drivers/1/vehicles
+
+6. Criar idioma:
+   POST /languages
+
+7. Associar idioma ao motorista:
+   POST /drivers/1/languages
+
+8. Solicitar corrida:
+   POST /rides -> status: SOLICITADA
+
+9. Aceitar corrida:
+   POST /rides/1/accept -> status: ACEITA
+
+10. Iniciar corrida:
+    POST /rides/1/start -> status: EM_ANDAMENTO
+
+11. Finalizar corrida:
+    POST /rides/1/complete -> status: FINALIZADA
+
+12. Avaliar motorista:
+    POST /rides/1/ratings
+
+================================================================================
+                         MAQUINA DE ESTADOS
+================================================================================
+
+SOLICITADA -> ACEITA -> EM_ANDAMENTO -> FINALIZADA
+     |          |           |
+     v          v           v
+  CANCELADA  CANCELADA   CANCELADA
+
+================================================================================

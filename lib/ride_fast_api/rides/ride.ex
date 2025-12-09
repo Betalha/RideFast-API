@@ -2,6 +2,7 @@ defmodule RideFastApi.Rides.Ride do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @derive {Jason.Encoder, only: [:id, :user_id, :driver_id, :vehicle_id, :origen_lat, :origen_lng, :dest_lat, :dest_lng, :price_estimate, :final_price, :status, :request_at, :started_at, :endend_at]}
   schema "rides" do
     field :origen_lat, :decimal
     field :origen_lng, :decimal
